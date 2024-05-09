@@ -168,8 +168,8 @@
                 //     type: 9
                 // },
                 {
-                    "userid": "253260642424058944",
-                    "name": "张倩倩（女，椒江区葭沚卫生院）",
+                    "userid": "282959255937917229",
+                    "name": "陈玮毓（男，椒江区葭沚卫生院）",
                     "title": "心理师",
                     type: 5
                 }
@@ -205,6 +205,9 @@
         let res = await setMeetAudit(params)
         this.dialogVisible = false
         this.getMeetDetail()
+        if(res.code == 0) {
+          this.$message.success('操作成功')
+        }
     },
     getMeetPeople(meetMember) {
         let peoples = []
@@ -270,7 +273,7 @@
                 auditInfo: "",
                 auditResult: "1",
                 id: this.$route.query.id,
-                meetember: JSON.stringify(meetember)
+                meetMember: JSON.stringify(meetember)
             }
         } else {
             if(!this.form.auditInfo) {
@@ -281,7 +284,7 @@
                 auditInfo: this.form.auditInfo,
                 auditResult: "2",
                 id: this.$route.query.id,
-                meetember: ""
+                meetMember: ""
             }
         }
         this.setMeetAudit(params)

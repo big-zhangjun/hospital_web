@@ -53,6 +53,9 @@
         <el-table-column prop="id" label="ID" width="220">
         </el-table-column>
         <el-table-column prop="applyTime" label="申请时间" width="180">
+          <template slot-scope="row">
+            <span>{{getApplyTime(row)}}</span>
+          </template>
         </el-table-column>
         <el-table-column prop="meetAim" label="会议目的">
         </el-table-column>
@@ -62,7 +65,7 @@
         </el-table-column>
         <el-table-column prop="patientName" label="会诊患者">
         </el-table-column>
-        <el-table-column prop="meetTime" label="会议时间"  width="300">
+        <el-table-column prop="meetTime" label="会议时间"  width="350">
           <template slot-scope="row">
             <span>{{getMeetTime(row)}}</span>
           </template>
@@ -152,6 +155,13 @@ export default {
       let {meetStartTime, meetEndTime} = data.row
       if(meetStartTime && meetEndTime) {
         return meetStartTime.replace("T", ' ') + ' 至 ' + meetEndTime.replace("T", ' ')
+      }
+      return ''
+    },
+    getApplyTime(data) {
+      let {applyTime} = data.row
+      if(applyTime) {
+        return applyTime.replace("T", ' ')
       }
       return ''
     },
