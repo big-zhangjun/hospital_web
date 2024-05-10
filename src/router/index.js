@@ -66,18 +66,27 @@ export const constantRoutes = [
     path: '',
     component: Layout,
     redirect: 'index',
-    meta: { title: '会诊管理', icon: 'dashboard', affix: true },
     children: [
       {
         path: 'index',
         component: () => import('@/views/index'),
         name: 'Index',
-      },
+        meta: { title: '会诊管理', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/meet',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
       {
-        path: '/detail',
+        path: 'detail',
         component: () => import('@/views/detail/index'),
         name: 'detail',
-      },
+        meta: { title: '会诊详情', icon: 'user' }
+      }
     ]
   },
   
@@ -184,7 +193,7 @@ Router.prototype.replace = function push(location) {
 }
 
 export default new Router({
-  mode: 'history', // 去掉url中的#
+  mode: 'hash', // 去掉url中的#
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })

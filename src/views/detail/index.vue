@@ -226,9 +226,8 @@
             id: this.$route.query.id
         }
         let res = await getMeetDetail(params)
-        this.detail = res
-        this.status = +res.status
-        console.log(res);
+        this.detail = res.data
+        this.status = +res.data.status
       },
       getColor(v) {
         // 1待审核 2待会诊 3会诊中 4已结束 9审核不通过

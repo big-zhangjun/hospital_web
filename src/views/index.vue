@@ -184,7 +184,7 @@ export default {
     // 查看详情
     handleLook(data) {
       this.$router.push({
-        path: "/detail",
+        path: "/meet/detail",
         query: {
           id: data.row.id
         }
@@ -214,8 +214,8 @@ export default {
       }
       let res = await getMeetList(params)
       console.log(res);
-      this.tableData =  res.records
-      this.total = res.total
+      this.tableData =  res.data.records
+      this.total = res.data.total
       // this.$http.get("/mdt/getList", params)
     }
   }
