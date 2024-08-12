@@ -61,7 +61,7 @@ export const constantRoutes = [
     component: () => import('@/views/error/401'),
     hidden: true
   },
-  
+
   {
     path: '',
     component: Layout,
@@ -72,6 +72,30 @@ export const constantRoutes = [
         component: () => import('@/views/index'),
         name: 'Index',
         meta: { title: '会诊管理', icon: 'dashboard', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/hospital',
+    component: Layout,
+    redirect: 'noredirect',
+    meta: {
+      title: "安宁人才管理",
+      icon: 'dashboard', 
+      affix: true
+    },
+    children: [
+      {
+        path: 'doctorManage',
+        component: () => import('@/views/hospital/doctor/doctorManage.vue'),
+        name: 'doctorManage',
+        meta: { title: '医护管理', icon: 'dashboard', affix: true }
+      },
+      {
+        path: 'teamManage',
+        component: () => import('@/views/hospital/team/teamManage.vue'),
+        name: 'teamManage',
+        meta: { title: '团队管理', icon: 'dashboard', affix: true }
       }
     ]
   },
@@ -89,7 +113,7 @@ export const constantRoutes = [
       }
     ]
   },
-  
+
   {
     path: '/user',
     component: Layout,

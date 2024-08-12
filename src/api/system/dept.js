@@ -3,9 +3,17 @@ import request from '@/utils/request'
 // 查询部门列表
 export function listDept(query) {
   return request({
-    url: '/system/dept/list',
-    method: 'get',
-    params: query
+    url: '/hosInfo/list',
+    method: 'post',
+    data: query
+  })
+}
+// 保存机构信息
+export function saveHosInfo(data) {
+  return request({
+    url: '/hosInfo/save',
+    method: 'post',
+    data: data
   })
 }
 
@@ -44,9 +52,11 @@ export function updateDept(data) {
 }
 
 // 删除部门
-export function delDept(deptId) {
+export function delDept(data) {
   return request({
-    url: '/system/dept/' + deptId,
-    method: 'delete'
+    url: '/hosInfo/delete',
+    method: 'post',
+    data: data
+
   })
 }

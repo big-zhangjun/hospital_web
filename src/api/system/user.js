@@ -133,3 +133,12 @@ export function deptTreeSelect() {
     method: 'get'
   })
 }
+
+// 通过父级行政区划代码获取子集
+export function getRegion(data) {
+  return request({
+    url: '/region/get',
+    method: 'post',
+    data: data
+  })
+}
