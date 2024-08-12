@@ -122,6 +122,14 @@
               </el-form-item>
             </el-col>
             <el-col :span="24">
+              <el-form-item label="医院等次" prop="hosGrade">
+                <el-select v-model="form.hosGrade" placeholder="请选择" style="width: 100%;">
+                  <el-option v-for="item in hosGradeList" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
               <el-form-item label="医院类别" prop="hosType">
                 <el-select v-model="form.hosType" placeholder="请选择" style="width: 100%;">
                   <el-option v-for="item in hospitalTypes" :key="item.value" :label="item.label" :value="item.value">
@@ -348,6 +356,12 @@ export default {
         { label: '骨伤医院', value: '8' },
         { label: '其他', value: '99' }
       ],
+      hosGradeList:[
+        { label: '甲', value: '1' },
+        { label: '乙', value: '2' },
+        { label: '丙', value: '3' },
+        { label: '其他', value: '9' }
+      ],
       upload: {
         // 是否禁用上传
         isUploading: false,
@@ -377,6 +391,9 @@ export default {
         ],
         hosLevel: [
           { required: true, message: "医院等级不能为空", trigger: "blur" }
+        ],
+        hosGrade: [
+          { required: true, message: "医院等次不能为空", trigger: "blur" }
         ],
         hosType: [
           { required: true, message: "医院类别不能为空", trigger: "blur" }
