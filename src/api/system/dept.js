@@ -60,3 +60,14 @@ export function delDept(data) {
 
   })
 }
+export function changeDeptStatus(id, status) {
+  const data = {
+    id,
+    status
+  }
+  return request({
+    url: '/hosInfo/changeStatus',
+    method: 'put',
+    data: data
+  })
+}
