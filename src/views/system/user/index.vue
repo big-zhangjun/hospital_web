@@ -550,24 +550,7 @@ export default {
         lazy: true,
         multiple: true,
         checkStrictly: true,
-        lazyLoad:(node, resolve)=> {
-          const { level, value } = node;
-          // 调用接口获取子节点数据
-          console.log(this.form.belongArea, 'sssss');
-          
-          getRegion({ parentCode: value })
-            .then((response) => {
-              const nodes = response.data.map((item) => ({
-                code: item.code,
-                name: item.name,
-              }));
-              resolve(nodes);
-            })
-            .catch((error) => {
-              console.error("加载子节点失败:", error);
-              resolve([]); // 在失败的情况下返回空数组
-            });
-        },
+        lazyLoad: this.lazyLoad,
       },
       // 表单校验
       rules: {
@@ -781,7 +764,7 @@ export default {
     handleUpdate(row) {
       this.reset();
       const userId = row.userId || this.ids;
-      getUser(userId).then((response) => {
+      getUser(userId).then(async (response) => {
         this.form = response.data.data;
         console.log(response.data.data.belongArea);
         let belongArea = JSON.parse(response.data.data.belongArea);
@@ -792,12 +775,57 @@ export default {
         this.roleOptions = response.data.roles;
         this.$set(this.form, "postIds", response.data.postIds);
         this.$set(this.form, "roleIds", response.data.roleIds);
-        this.$set(this.form, "belongArea", belongArea.map((item)=> item.code));
+        this.$set(
+          this.form,
+          "belongArea",
+          belongArea.map((item) => item.code)
+        );
 
         this.open = true;
         this.title = "修改用户";
         this.form.password = "";
+        if (this.form.belongArea.length) {
+          // this.form.belongArea.forEach(async (ele) => {
+          //   // this.loadInitialData(ele);
+          // });
+          await this.loadSelectedData(this.form.belongArea[1]);
+        }
       });
+    },
+    loadSelectedData(selectedCodes) {
+      console.log(selectedCodes);
+      
+      let code = "";
+      selectedCodes.forEach((selectedCode, index) => {
+        this.lazyLoad({ level: index + 1, value: selectedCode }, (nodes) => {
+          const selectedNode = nodes.find((node) => node.code === selectedCode);
+          console.log(nodes, selectedNode, 'selectedNode', selectedCode);
+          
+          if (selectedNode) {
+            code = selectedNode.code;
+            this.$refs.belongArea.$children[0].$emit("load", {
+              children: nodes,
+            });
+          }
+        });
+      });
+    },
+    lazyLoad(node, resolve) {
+      const { level, value } = node;
+      // 调用接口获取子节点数据
+
+      getRegion({ parentCode: value })
+        .then((response) => {
+          const nodes = response.data.map((item) => ({
+            code: item.code,
+            name: item.name,
+          }));
+          resolve(nodes);
+        })
+        .catch((error) => {
+          console.error("加载子节点失败:", error);
+          resolve([]); // 在失败的情况下返回空数组
+        });
     },
     /** 重置密码按钮操作 */
     handleResetPwd(row) {
