@@ -462,7 +462,7 @@ export default {
     getDictList(data, key, type) {
       if (type == 'array') {
         let strs = []
-        data.split(",").forEach(ele => {
+        data && data.split(",").forEach(ele => {
           let res = this[key].find(item => item.value == ele)
           if (res) {
             strs.push( res.label)
