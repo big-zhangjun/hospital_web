@@ -129,11 +129,6 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="24">
-                            <el-form-item label="医生工号" prop="docNo">
-                                <el-input placeholder="请输入" v-model="form.docNo"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="24">
                             <el-form-item label="职业类别" prop="docType">
                                 <el-select v-model="form.docType" placeholder="请选择" style="width: 100%">
                                     <el-option v-for="item in docTypeList" :key="item.code" :label="item.name"
@@ -192,7 +187,7 @@ import {
     getDeptList,
     updateDept,
 } from "@/api/system/dept";
-import { getDoctorlist, addDoctor, delDoctor, getDoctor, updateDoctor } from "@/api/anning/talents/hospital/doctor.js"
+import { getDoctorlist, addDoctor, delDoctor, getDoctor, updateDoctor, changeStatus } from "@/api/anning/talents/hospital/doctor.js"
 
 import { getRegion } from "@/api/system/user";
 import Treeselect from "@riophae/vue-treeselect";
@@ -478,7 +473,7 @@ export default {
         handleStatusChange(row) {
             let text = row.status === "1" ? "启用" : "停用";
             this.$modal.confirm('确认要' + text + '该机构吗？').then(function () {
-                return changeDeptStatus(row.id, row.status);
+                return changeStatus({id: row.id});
             }).then(() => {
                 this.$modal.msgSuccess(text + "成功");
             }).catch(function () {
@@ -494,14 +489,14 @@ export default {
                         this.form.deptName = deptData.name
                     }
                     if (this.type == 'edit') {
-                        updateDoctor({ ...this.form, sort: 1, certType: '1' }).then((response) => {
+                        updateDoctor({ ...this.form, sort: 1, certType: '1', dutyType: '1' }).then((response) => {
                             this.$modal.msgSuccess("修改成功");
                             this.open = false;
                             this.getList();
                         });
                     } else {
 
-                        addDoctor({ ...this.form, sort: 1, certType: '1' }).then((response) => {
+                        addDoctor({ ...this.form, sort: 1, certType: '1', dutyType: '1' }).then((response) => {
                             this.$modal.msgSuccess("新增成功");
                             this.open = false;
                             this.getList();

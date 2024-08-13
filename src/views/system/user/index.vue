@@ -770,7 +770,6 @@ export default {
       const userId = row.userId || this.ids;
       getUser(userId).then(async (response) => {
         this.form = response.data.data;
-        console.log(response.data.data.belongArea);
         let belongArea = JSON.parse(response.data.data.belongArea);
         // if(belongArea) {
         //   belongArea = belongArea.map(it)

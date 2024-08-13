@@ -129,7 +129,7 @@ import {
 } from "@/api/system/dept";
 import { getDoctorlist } from "@/api/anning/talents/hospital/doctor.js"
 
-import { getTeamlist, addTeam, getTeam, updateTeam, delTeam } from "@/api/anning/talents/hospital/team.js";
+import { getTeamlist, addTeam, getTeam, updateTeam, delTeam, changeTeamStatus } from "@/api/anning/talents/hospital/team.js";
 
 import { getRegion } from "@/api/system/user";
 import Treeselect from "@riophae/vue-treeselect";
@@ -367,7 +367,7 @@ export default {
     handleStatusChange(row) {
       let text = row.status === "1" ? "启用" : "停用";
       this.$modal.confirm('确认要' + text + '该机构吗？').then(function () {
-        return changeDeptStatus(row.id, row.status);
+        return changeTeamStatus({id: row.id});
       }).then(() => {
         this.$modal.msgSuccess(text + "成功");
       }).catch(function () {

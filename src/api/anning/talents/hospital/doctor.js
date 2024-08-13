@@ -51,3 +51,12 @@ export function getDoctor(data) {
     data: data
   })
 }
+
+// 详情
+export function changeStatus(data) {
+  return request({
+    url: '/doctor/changeStatus',
+    method: 'post',
+    data: data
+  })
+}

@@ -83,3 +83,20 @@ export function delMdtTeam(data) {
         data: data
     })
 }
+
+export function changeStatus(data) {
+    return request({
+        url: '/mdtTeam/changeStatus',
+        method: 'post',
+        data: data
+    })
+}
+export function changeTeamStatus(data) {
+    return request({
+        url: '/team/changeStatus',
+        method: 'post',
+        data: data
+    })
+}
+
+
