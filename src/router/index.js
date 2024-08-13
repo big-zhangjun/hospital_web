@@ -76,7 +76,7 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/hospital',
+    path: '/anning/',
     component: Layout,
     redirect: 'noredirect',
     meta: {
@@ -86,17 +86,53 @@ export const constantRoutes = [
     },
     children: [
       {
-        path: 'doctorManage',
-        component: () => import('@/views/hospital/doctor/doctorManage.vue'),
+        path: 'talents',
         name: 'doctorManage',
-        meta: { title: '医护管理', icon: 'dashboard', affix: true }
+        redirect: "/anning/talents/doctorManage",
+        meta: { title: '医护管理', icon: 'dashboard' },
+        component: () => import('@/views/anning/talents/index.vue'),
+        children: [
+          {
+            path: 'doctorManage',
+            component: () => import('@/views/anning/talents/hospital/doctor/doctorManage.vue'),
+            name: 'doctorManage',
+            meta: { title: '医护管理', icon: 'dashboard' }
+          },
+          {
+            path: 'teamManage',
+            component: () => import('@/views/anning/talents/hospital/team/teamManage.vue'),
+            name: 'teamManage',
+            meta: { title: '团队管理', icon: 'dashboard' }
+          }
+        ]
       },
       {
-        path: 'teamManage',
-        component: () => import('@/views/hospital/team/teamManage.vue'),
-        name: 'teamManage',
-        meta: { title: '团队管理', icon: 'dashboard', affix: true }
+        path: 'mdt',
+        name: 'doctorManage',
+        meta: { title: 'MDT专家管理', icon: 'dashboard' },
+        redirect: "/anning/mdt/experts",
+        component: () => import('@/views/anning/talents/index.vue'),
+        children: [
+          {
+            path: 'experts',
+            component: () => import('@/views/anning/talents/mdt/experts/index.vue'),
+            name: 'doctorManage',
+            meta: { title: 'MDT专家信息', icon: 'dashboard' }
+          },
+          {
+            path: 'team',
+            component: () => import('@/views/anning/talents/mdt/team/index.vue'),
+            name: 'team',
+            meta: { title: 'MDT团队管理', icon: 'dashboard' }
+          }
+        ]
       }
+      // {
+      //   path: 'teamManage',
+      //   component: () => import('@/views/anning/talents/hospital/team/teamManage.vue'),
+      //   name: 'teamManage',
+      //   meta: { title: '团队管理', icon: 'dashboard', affix: true }
+      // }
     ]
   },
   {

@@ -71,3 +71,29 @@ export function changeDeptStatus(id, status) {
     data: data
   })
 }
+
+export function getTitleList(data) {
+  return request({
+    url: '/title/getList',
+    method: 'post',
+    data: data
+  })
+}
+
+export function getTitleTypeList(data) {
+  return request({
+    url: '/title/getType',
+    method: 'post',
+    data: data
+  })
+}
+
+export function getDeptList(data) {
+  return request({
+    url: '/dept/getlist',
+    method: 'post',
+    data: data
+  })
+}
+
+

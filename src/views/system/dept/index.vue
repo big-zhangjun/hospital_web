@@ -156,8 +156,8 @@
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.status"
-            active-value="0"
-            inactive-value="1"
+            active-value="1"
+            inactive-value="0"
             @change="handleStatusChange(scope.row)"
           ></el-switch>
         </template>
@@ -671,7 +671,6 @@ export default {
         pageSize: 10,
       };
       listDept(params).then((response) => {
-        console.log(response.records, response);
         this.total = response.data.total;
         this.deptList = response.data.records;
         this.loading = false;
@@ -680,8 +679,10 @@ export default {
     getDictList(data, key, type) {
       if (type == "array") {
         let strs = [];
-        data &&
-          data.split(",").forEach((ele) => {
+        console.log(data);
+        if(!data) return
+        let list = typeof data == 'string' ? data.split(",") : data
+        list.forEach((ele) => {
             let res = this[key].find((item) => item.value == ele);
             if (res) {
               strs.push(res.label);
@@ -774,7 +775,13 @@ export default {
       this.reset();
       // getDept(row.deptId).then(response => {
       this.form = row;
-      this.form.serviceType = row.serviceType ? row.serviceType.split(",") : [];
+      console.log(row);
+      
+      if(row.serviceType) {
+        this.form.serviceType = typeof row.serviceType == 'string' ? row.serviceType.split(",") : row.serviceType;
+      } else {
+        this.form.serviceType = []
+      }
       this.open = true;
       this.title = "修改部门";
       this.$nextTick(() => {
@@ -793,7 +800,7 @@ export default {
     },
     // 用户状态修改
     handleStatusChange(row) {
-      let text = row.status === "0" ? "启用" : "停用";
+      let text = row.status === "1" ? "启用" : "停用";
       this.$modal.confirm('确认要' + text + '该机构吗？').then(function () {
         return changeDeptStatus(row.id, row.status);
       }).then(() => {
@@ -809,22 +816,23 @@ export default {
           let { jurisdictionCode, areaCode, serviceType } = this.form;
           let jurisdictionNode = this.$refs.jurisdiction.getCheckedNodes();
           let areaNode = this.$refs.area.getCheckedNodes();
-
+          console.log(jurisdictionNode[0]);
+          
           let params = {
             ...this.form,
             jurisdictionCode: jurisdictionCode
               ? jurisdictionCode[jurisdictionCode.length - 1]
               : "",
             areaCode: areaCode ? areaCode[areaCode.length - 1] : "",
-            jurisdictionName: jurisdictionNode.length
-              ? jurisdictionNode[0].label
+            jurisdictionName: jurisdictionNode.length && jurisdictionNode[0]
+              ? jurisdictionNode[0].pathLabels.join("/")
               : "",
-            areaName: areaNode.length ? areaNode[0].label : "",
+            areaName: areaNode.length && areaNode[0] ? areaNode[0].pathLabels.join("/") : "",
             serviceType: serviceType.join(","),
           };
 
           if (this.form.deptId != undefined) {
-            updateDept(this.form).then((response) => {
+            updateDept(params).then((response) => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
@@ -844,7 +852,7 @@ export default {
       this.$modal
         .confirm('是否确认删除名称为"' + row.deptName + '"的数据项？')
         .then(function () {
-          return delDept(row.deptId);
+          return delDept({id: row.id});
         })
         .then(() => {
           this.getList();
@@ -860,5 +868,8 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin-top: 8px;
+}
+.avatar {
+    width: 148px;
 }
 </style>
