@@ -182,6 +182,7 @@
             <el-col :span="24">
               <el-form-item label="服务地区" prop="serviceArea">
                 <el-cascader
+                  ref="service"
                   v-model="form.serviceArea"
                   :options="provinceList"
                   :props="props"
@@ -448,10 +449,8 @@ export default {
     },
     getArea(str) {
       if (str) {
-        let res = JSON.parse(str);
-        if (res instanceof Array) {
-          console.log(res, "ss");
-          // res.map(item=> item.)
+        if (str instanceof Array) {
+          return str.map(item=> item.name).join(",")
         }
       }
       return str;
@@ -571,6 +570,7 @@ export default {
     },
     /** 提交按钮 */
     submitForm: function () {
+      console.log(this.$refs.service.getCheckedNodes());
       this.$refs["form"].validate((valid) => {
         if (valid) {
           let members = this.docList
@@ -581,15 +581,15 @@ export default {
                 name: item.name,
               };
             });
-          let serviceAreaData = this.form.serviceArea.map((item) => {
-            console.log(item);
-
+            
+          let serviceArea = this.$refs.service.getCheckedNodes().map((item) => {
             return {
-              level: item.length,
-              code: item,
+              level: item.level,
+              code: item.value,
+              name: item.label
             };
           });
-          let serviceArea = JSON.stringify(serviceAreaData);
+          // let serviceArea = JSON.stringify(serviceAreaData);
           if (this.type == "edit") {
             updateMdtTeam({ ...this.form, members, serviceArea }).then(
               (response) => {
