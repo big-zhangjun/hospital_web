@@ -104,6 +104,8 @@
             <template slot-scope="scope" v-if="scope.row.userId !== 1">
               <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
                 v-hasPermi="['system:user:edit']">修改</el-button>
+                <el-button size="mini" type="text" icon="el-icon-edit" @click="handleResetPwd(scope.row)"
+                v-hasPermi="['system:user:edit']">重置密码</el-button>
               <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
                 v-hasPermi="['system:user:remove']">删除</el-button>
               <!-- <el-dropdown size="mini" @command="(command) => handleCommand(command, scope.row)"

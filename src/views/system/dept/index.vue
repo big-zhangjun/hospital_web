@@ -803,7 +803,7 @@ export default {
     handleStatusChange(row) {
       let text = row.status === "1" ? "启用" : "停用";
       this.$modal.confirm('确认要' + text + '该机构吗？').then(function () {
-        return changeDeptStatus(row.id, row.status);
+        return changeDeptStatus({id: row.id});
       }).then(() => {
         this.$modal.msgSuccess(text + "成功");
       }).catch(function () {
