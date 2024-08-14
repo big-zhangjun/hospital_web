@@ -60,3 +60,10 @@ export function changeStatus(data) {
     data: data
   })
 }
+export function getPath(query) {
+  return request({
+    url: '/front/profile/getPath',
+    method: 'post',
+    data: query
+  })
+}

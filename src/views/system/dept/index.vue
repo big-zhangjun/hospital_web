@@ -488,6 +488,7 @@ import {
 import { getRegion } from "@/api/system/user";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import region from "@/utils/region"
 
 export default {
   name: "Dept",
@@ -504,28 +505,28 @@ export default {
       total: 0,
       // 部门树选项
       deptOptions: [],
-      provinceList: [],
+      provinceList: region,
       props: {
         value: "code",
         label: "name",
         checkStrictly: true,
-        lazy: true,
-        lazyLoad(node, resolve) {
-          const { level, value } = node;
-          // 调用接口获取子节点数据
-          getRegion({ parentCode: value })
-            .then((response) => {
-              const nodes = response.data.map((item) => ({
-                code: item.code,
-                name: item.name,
-              }));
-              resolve(nodes);
-            })
-            .catch((error) => {
-              console.error("加载子节点失败:", error);
-              resolve([]); // 在失败的情况下返回空数组
-            });
-        },
+        // lazy: true,
+        // lazyLoad(node, resolve) {
+        //   const { level, value } = node;
+        //   // 调用接口获取子节点数据
+        //   getRegion({ parentCode: value })
+        //     .then((response) => {
+        //       const nodes = response.data.map((item) => ({
+        //         code: item.code,
+        //         name: item.name,
+        //       }));
+        //       resolve(nodes);
+        //     })
+        //     .catch((error) => {
+        //       console.error("加载子节点失败:", error);
+        //       resolve([]); // 在失败的情况下返回空数组
+        //     });
+        // },
       },
       // 弹出层标题
       title: "",
@@ -643,7 +644,7 @@ export default {
   },
   created() {
     this.getList();
-    this.getRegion();
+    // this.getRegion();
   },
   methods: {
     medicalFileRemove() {

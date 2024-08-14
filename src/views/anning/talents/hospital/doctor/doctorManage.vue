@@ -7,8 +7,7 @@
             </el-form-item>
             <el-form-item label="状态" prop="status">
                 <el-select v-model="queryParams.status" placeholder="部门状态" clearable>
-                    <el-option v-for="dict in statusList" :key="dict.value" :label="dict.label"
-                        :value="dict.value" />
+                    <el-option v-for="dict in statusList" :key="dict.value" :label="dict.label" :value="dict.value" />
                 </el-select>
             </el-form-item>
             <el-form-item label="所在机构" prop="orgId">
@@ -180,14 +179,11 @@
 import { getToken } from "@/utils/auth";
 import {
     listDept,
-    changeDeptStatus,
     getTitleTypeList,
     getTitleList,
-    saveHosInfo,
     getDeptList,
-    updateDept,
 } from "@/api/system/dept";
-import { getDoctorlist, addDoctor, delDoctor, getDoctor, updateDoctor, changeStatus } from "@/api/anning/talents/hospital/doctor.js"
+import { getDoctorlist, addDoctor, delDoctor, getDoctor, updateDoctor, changeStatus, getPath } from "@/api/anning/talents/hospital/doctor.js"
 
 import { getRegion } from "@/api/system/user";
 import Treeselect from "@riophae/vue-treeselect";
@@ -223,8 +219,8 @@ export default {
                 status: undefined,
             },
             statusList: [
-            { label: "正常", value: "1" },
-            { label: "停用", value: "0" },
+                { label: "正常", value: "1" },
+                { label: "停用", value: "0" },
             ],
             // 表单参数
             form: {
@@ -376,7 +372,7 @@ export default {
                 pageNum: this.pageNum,
                 pageSize: 10,
             };
-            getDoctorlist({...params, dutyType: '2'}).then((response) => {
+            getDoctorlist({ ...params, dutyType: '2' }).then((response) => {
                 console.log(response.records, response);
                 this.total = response.data.total;
                 this.tableData = response.data.records;
@@ -464,16 +460,23 @@ export default {
                 this.form = response.data;
                 this.open = true;
                 this.title = "维护信息";
-                this.$nextTick(() => {
+                this.getPath(response.data.docIcon)
+                // this.$nextTick(() => {
 
-                });
+                // });
             })
+        },
+        async getPath(id) {
+            if (!id) return
+            let params = { id };
+            let res = await getPath(params);
+            this.imageUrl = 'http://192.168.136.34:8099/' + res.data
         },
         // 用户状态修改
         handleStatusChange(row) {
             let text = row.status === "1" ? "启用" : "停用";
             this.$modal.confirm('确认要' + text + '该机构吗？').then(function () {
-                return changeStatus({id: row.id });
+                return changeStatus({ id: row.id });
             }).then(() => {
                 this.$modal.msgSuccess(text + "成功");
             }).catch(function () {

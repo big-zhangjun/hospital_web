@@ -142,3 +142,12 @@ export function getRegion(data) {
     data: data
   })
 }
+
+// 获取机构列表
+export function getHoslist(data) {
+  return request({
+    url: '/hosInfo/list',
+    method: 'post',
+    data: data
+  })
+}
