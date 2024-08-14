@@ -502,12 +502,12 @@ export default {
       getDoctorlist({ ...params, dutyType: "2" }).then((response) => {
         console.log(response.records, response);
         this.total = response.data.total;
-        response.data.records.forEach(async ele=> {
-            if(ele.docIcon) {
-                ele.docIcon = await this.getAvatar(ele.docIcon)
-                console.log(ele);
-            }
-        })
+        response.data.records.forEach(async (ele) => {
+          if (ele.docIcon) {
+            ele.docIcon = await this.getAvatar(ele.docIcon);
+            console.log(ele);
+          }
+        });
         this.tableData = response.data.records;
         console.log(this.tableData);
 
@@ -603,11 +603,14 @@ export default {
         let params = { id };
         let res = await getPath(params);
         let str = "http://92146r06e1.zicp.fun" + res.data;
-        return str
+        return str;
       }
     },
     async getPath(id) {
-      if (!id) return;
+      if (!id) {
+        this.imageUrl = "";
+        return;
+      }
       let params = { id };
       let res = await getPath(params);
       this.imageUrl = "http://92146r06e1.zicp.fun" + res.data;
@@ -690,8 +693,8 @@ export default {
   width: 148px;
 }
 .docIcon {
-    width: 48px;
-    height: 48px;
-    object-fit: scale-down;
+  width: 48px;
+  height: 48px;
+  object-fit: scale-down;
 }
 </style>
